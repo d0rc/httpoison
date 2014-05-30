@@ -72,6 +72,12 @@ defmodule HTTPoison.Base do
                               process_request_headers(headers),
                               body,
                               hn_options) do
+           {:ok, 204, headers, _} ->
+             %HTTPoison.Response {
+               status_code: process_status_code(204),
+               headers: process_headers(headers),
+               body: process_response_body("")
+             }
            {:ok, status_code, headers, client} ->
              {:ok, body} = :hackney.body(client)
              %HTTPoison.Response {
